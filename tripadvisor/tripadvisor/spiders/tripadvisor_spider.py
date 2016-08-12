@@ -4,6 +4,13 @@ from scrapy.contrib.linkextractors.lxmlhtml import LxmlLinkExtractor
 from tripadvisor.items import TripadvisorItem
 from scrapy.conf import settings
 
+
+def parsing_rating(line):
+	if len(line)>0:
+		return line[0][line[0].find("alt"):]
+	else:
+		return ""
+
 class TripadvisorSpider(CrawlSpider):
 	name = 'tripadvisor'
 	allowed_domains = ['tripadvisor.in','tripadvisor.com']
@@ -17,28 +24,32 @@ class TripadvisorSpider(CrawlSpider):
 		start_url='https://www.tripadvisor.com/Attractions-g187337-Activities-Frankfurt_Hesse.html'
 		# start_url='https://www.tripadvisor.com/'
 		self.start_urls = [start_url]
-		
+	
+
 	def parse_trip(self,response):
 		item = TripadvisorItem()
 		print "\n\n---------------------START-----------------------"
 		print response.url
 		# print response.xpath('//a/@href').extract()
-		try:
-			item['name'] = response.xpath('//*[@id="HEADING"]/text()').extract()[0].encode('ascii','ignore')
-			item['rating'] = response.xpath('//*[@id="HEADING_GROUP"]/div/div[2]/div[1]/div/span/img').extract()
-			item['neighborhood'] = response.xpath('//*[@id="MAP_AND_LISTING"]/div[2]/div/div[2]/div/div[1]/div/address/span/span').extract()
-			item['classification'] = response.xpath('//*[@id="HEADING_GROUP"]/div/div[3]/div[2]/div').extract()
-			item['url'] = response.url
-			item['price'] = response.xpath('//*[@id="ABOVE_THE_FOLD"]/div[2]/div[1]/div/div[2]/div/div[1]/div/div[2]/div[1]/text()').extract()
-			item['hours'] = response.xpath('//*[@id="MAP_AND_LISTING"]/div[2]/div/div[2]/div/div[4]/div/div[2]/div').extract()
-			item['desc'] = response.xpath('//*[@id="MAP_AND_LISTING"]/div[2]/div/div[2]/div/div[6]/div/p').extract()
-			# item['desc'] = [desc.encode('ascii','ignore') for desc in response.xpath('//*[@id="feature-bullets"]/ul/li/span/text()').extract() ]
-			item['reviews'] = response.xpath('//*[@class="reviewSelector"]').extract()
-			print "\n\n---------------------------------------------------"
-			print(item)
-		except:
-			print('Not a product!')
-			item = None
+		# try:
+		item['name'] = response.xpath('//*[@id="HEADING"]/text()').extract()[0].encode('ascii','ignore')
+		item['rating'] = parsing_rating(response.xpath('//*[@id="HEADING_GROUP"]/div/div[2]/div[1]/div/span/img').extract())
+		item['neighborhood'] = response.xpath('//*[@id="MAP_AND_LISTING"]/div[2]/div/div[2]/div/div[1]/div/address/span/span').extract()
+		item['classification'] = response.xpath('//*[@id="HEADING_GROUP"]/div/div[3]/div[2]/div').extract()
+		item['url'] = response.url
+		item['price'] = response.xpath('//*[@id="ABOVE_THE_FOLD"]/div[2]/div[1]/div/div[2]/div/div[1]/div/div[2]/div[1]/text()').extract()
+		item['hours'] = response.xpath('//*[@id="MAP_AND_LISTING"]/div[2]/div/div[2]/div/div[4]/div/div[2]/div').extract()
+		item['desc'] = response.xpath('//*[@id="OVERLAY_CONTENTS"]/div/p/text()').extract()
+		# item['desc'] = [desc.encode('ascii','ignore') for desc in response.xpath('//*[@id="feature-bullets"]/ul/li/span/text()').extract() ]
+		usernames = response.xpath('//*[@class="username mo"]').extract()
+		reviews = response.xpath('//*[@class="partial_entry"]/text()').extract()
+		item['reviews'] = zip(usernames,reviews)
+		print "\n\n---------------------------------------------------"
+		print(item)
+
+		# except:
+		# 	print('Not a product!')
+		# 	item = None
 		yield item
 
 	def process_links(self,links):
