@@ -1,6 +1,6 @@
 """
 Web Scraper of findagrave
-Location: Austin, Texas
+Location: San Antonio, Texas
 """
 
 import scrapy
@@ -51,18 +51,18 @@ def parsing_name(line):
 	return line[line.find("<b>")+3:line.find("</b>")]
 
 class FindagraveSpider(CrawlSpider):
-	name = 'findagrave'
+	name = 'findagravesan'
 	allowed_domains = ['findagrave.com']
 	# rules = (Rule(LxmlLinkExtractor(allow=(r'\/([A-Z])([A-Z0-9]{9})'),deny=('')),callback='parse_item'),Rule(LxmlLinkExtractor(allow=(''))),),)
 
 	# rules = (Rule(LxmlLinkExtractor(allow=(r'https://www.tripadvisor.com/Attraction_Review.*')),callback='parse_trip', process_links='process_links'),)
-	rules = (Rule(LxmlLinkExtractor(allow=(r'.*FScityid=138641.*'), deny=(r'.*CRid=.*', r'.*MRid=.*',r'.*=gr.*', r'.*=gs.*', r'.*=cs.*', r'.*=mp.*', r'.*=ss.*', r'.*=mr.*', r'.*=cem.*', r'.*GSvpid.*')), follow=True,),
+	rules = (Rule(LxmlLinkExtractor(allow=(r'.*FScityid=1118.*'), deny=(r'.*CRid=.*', r'.*MRid=.*',r'.*=gr.*', r'.*=gs.*', r'.*=cs.*', r'.*=mp.*', r'.*=ss.*', r'.*=mr.*', r'.*=cem.*', r'.*GSvpid.*')), follow=True,),
 			 Rule(LxmlLinkExtractor(allow=(r'.*GRid=.*')),callback='parse_grave', follow=False,),
 			 Rule(LxmlLinkExtractor(allow=('')), follow=False,))
 
 	def __init__(self,*args, **kwargs):
 		super(FindagraveSpider, self).__init__(*args, **kwargs)
-		start_url='http://www.findagrave.com/php/famous.php?page=city&FScityid=138641'
+		start_url='http://www.findagrave.com/php/famous.php?page=city&FScityid=1118'
 		self.start_urls = [start_url]
 	
 
@@ -90,9 +90,10 @@ class FindagraveSpider(CrawlSpider):
 				# details = response.xpath('//*[@colspan="2"]').extract()[16]
 				# item['description'] = parsing_tag(details)
 				itme = None
-			print "\n\n---------------------------------------------------"
 			if 'Austin' not in item['burial']:
 				item = None
+			print "\n\n---------------------------------------------------"
+
 		else:
 			item = None
 
