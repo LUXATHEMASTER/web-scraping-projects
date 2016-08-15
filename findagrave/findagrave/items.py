@@ -8,15 +8,14 @@
 import scrapy
 
 
-class TripadvisorItem(scrapy.Item):
+class FindagraveItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     name = scrapy.Field()
-    rating = scrapy.Field()
-    neighborhood = scrapy.Field()
-    classification = scrapy.Field()
+    birthdate = scrapy.Field()
+    deathdate = scrapy.Field()
+    description = scrapy.Field()
+    burial = scrapy.Field()
+    plot = scrapy.Field()
     url = scrapy.Field()
-    price = scrapy.Field()
-    hours = scrapy.Field()
-    desc = scrapy.Field()
-    reviews = scrapy.Field()
+    

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for tripadvisor project
+# Scrapy settings for findagrave project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,15 +9,15 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'tripadvisor'
+BOT_NAME = 'findagrave'
 
-SPIDER_MODULES = ['tripadvisor.spiders']
-NEWSPIDER_MODULE = 'tripadvisor.spiders'
+SPIDER_MODULES = ['findagrave.spiders']
+NEWSPIDER_MODULE = 'findagrave.spiders'
 
-DEPTH_LIMIT = 3
+DEPTH_LIMIT = 6
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'tripadvisor (+http://www.yourdomain.com)'
+#USER_AGENT = 'findagrave (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 # ROBOTSTXT_OBEY = True
@@ -48,13 +48,13 @@ DEPTH_LIMIT = 3
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'tripadvisor.middlewares.MyCustomSpiderMiddleware': 543,
+#    'findagrave.middlewares.MyCustomSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'tripadvisor.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'findagrave.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -66,12 +66,12 @@ DEPTH_LIMIT = 3
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'tripadvisor.pipelines.TripadvisorPipeline': 0,
+   'findagrave.pipelines.FindagravePipeline': 0,
 }
 
 MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
-MONGODB_DB = "tripadvisor"
+MONGODB_DB = "findagrave"
 MONGODB_COLLECTION = "products"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
