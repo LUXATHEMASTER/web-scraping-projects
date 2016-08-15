@@ -14,12 +14,13 @@ BOT_NAME = 'yellow'
 SPIDER_MODULES = ['yellow.spiders']
 NEWSPIDER_MODULE = 'yellow.spiders'
 
+DEPTH_LIMIT = 3
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'yellow (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -64,9 +65,14 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'yellow.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'yellow.pipelines.YellowPipeline': 300,
+}
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "yellow"
+MONGODB_COLLECTION = "products"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
