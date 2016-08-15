@@ -90,7 +90,7 @@ class FindagraveSpider(CrawlSpider):
 				# details = response.xpath('//*[@colspan="2"]').extract()[16]
 				# item['description'] = parsing_tag(details)
 				itme = None
-			if 'Austin' not in item['burial']:
+			if 'Antonio' not in item['burial']:
 				item = None
 			print "\n\n---------------------------------------------------"
 

@@ -50,8 +50,8 @@ class YellowSpider(CrawlSpider):
 	allowed_domains = ['yellow.co.nz']
 	# rules = (Rule(LxmlLinkExtractor(allow=(r'\/([A-Z])([A-Z0-9]{9})'),deny=('')),callback='parse_item'),Rule(LxmlLinkExtractor(allow=(''))),),)
 
-	rules = (Rule(LxmlLinkExtractor(allow=(r'https://yellow.co.nz/canterbury-region/plumbers/page/([0-9])?what=plumbers&where=Canterbury+Region')), follow=True,),
-			 Rule(LxmlLinkExtractor(allow=(r'https://yellow.co.nz/y.*')),callback='parse_business', follow=False,),
+	rules = (Rule(LxmlLinkExtractor(allow=(r'https://yellow.co.nz/canterbury-region/plumbers/page/.*',r'.*what=plumbers&where=Canterbury+Region.*')), follow=True,),
+			 Rule(LxmlLinkExtractor(allow=(r'https://yellow.co.nz/y/.*'), deny=(r'.*more', r'.*Other')),callback='parse_business', follow=False,),
 			 Rule(LxmlLinkExtractor(allow=('')), follow=False,))
 
 	def __init__(self,*args, **kwargs):
@@ -63,8 +63,14 @@ class YellowSpider(CrawlSpider):
 	def parse_business(self,response):
 		item = YellowItem()
 		print "\n\n---------------------START-----------------------"
+		print "\n\n---------------------START-----------------------"
+		print "\n\n---------------------START-----------------------"
 		print response.url
 		item["Company"] = response.xpath('//*[@id="businessDetailsPrimary"]/div[1]/div[3]/h1/span').extract()
+		item["PhoneNumber"] = response.xpath('//*[@id="businessDetailsPrimary"]/div[2]/div/span[1]/a[1]').extract()
+		item["MailingAddress"] = response.xpath('//*[@id="detailSectionSecondary"]/div[2]/section[3]/div[2]/p').extract()
+		item["email"] = response.xpath('//*[@id="businessDetailsPrimary"]/div[2]/div/meta').extract()
+		item["url"] = response.url
 		print item
 		yield item
 
