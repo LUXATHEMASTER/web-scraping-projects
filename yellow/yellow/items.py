@@ -17,3 +17,5 @@ class YellowItem(scrapy.Item):
 	CellPhoneNumber = scrapy.Field()
 	PhysicalAddress = scrapy.Field()
 	MailingAddress = scrapy.Field()
+	email = scrapy.Field()
+	url = scrapy.Field()
