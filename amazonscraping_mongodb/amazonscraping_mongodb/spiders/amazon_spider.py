@@ -19,7 +19,8 @@ class AmazonSpider(CrawlSpider):
 		# print(str(response.url))
 		item = AmazonscrapingMongodbItem()
 		try:
-			item['name'] = response.xpath('//*[@id="productTitle"]/text()').extract()[0].encode('ascii','ignore')
+			name = response.xpath('//*[@id="productTitle"]/text()').extract()[0].encode('ascii','ignore')
+			item['name'] = name.strip().split("\n")
 			item['reviews'] = response.xpath('//*[@id="acrCustomerReviewText"]/text()').extract()[0].encode('ascii','ignore')
 			item['url'] = response.url
 			# print(response.xpath('//*[@id="avgRating"]/span/text()').extract())
